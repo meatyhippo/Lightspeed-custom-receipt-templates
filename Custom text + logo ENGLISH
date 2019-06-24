@@ -775,7 +775,7 @@ table.payments td.label {
           {% for shop in options.shop_logo_array if not logo_printed %}
             {% if shop.name == Sale.Shop.name %}
               {% if shop.logo_url|strlen > 0 %}
-              <p style="margin-bottom: 0px;margin-top: 0px;">{{ shop.logo_url }} {{Sale.quoteID}}</p>
+              <p style="margin-bottom: 0px;margin-top: 0px;">{{ shop.logo_url }}{{Sale.quoteID}}</p>
                 {% set logo_printed = true %}
               {% endif %}
             {% endif %}
