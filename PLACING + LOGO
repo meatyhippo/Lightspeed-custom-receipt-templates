@@ -261,7 +261,7 @@ dl {
 dl dt {
 	font-weight: bold;
 	width: 80px;
-	float: left
+	float: left;
 }
 
 dl dd {
@@ -378,7 +378,7 @@ table.payments td.label {
 
 		.receiptShopName,
 		.receiptShopContact {
-			text-align: left;
+			text-align: center;
 		}
 
 		.receiptTypeTitle,
@@ -416,7 +416,7 @@ table.payments td.label {
 		.receiptQuoteIdField,
 		.receiptTicketIdField {
 			clear: right;
-			Float: right;
+			Float: left;
 		}
 		.receiptQuoteIdLabel,
 		.receiptTicketIdLabel {
@@ -426,7 +426,6 @@ table.payments td.label {
 		#receiptTicketId {
 			font-size: 14pt;
 			font-weight: bold;
-			display: block;
 			Float: right;
 		}
 
@@ -733,7 +732,8 @@ table.payments td.label {
 {% endmacro %}
 
 {% macro sale_details(Sale,options) %}
-	<p id="receiptInfo" class="details" style="margin-bottom: 0px;">
+<span style="display:inline">
+	<p id="receiptInfo" class="details" style="margin: 0px 3px 0px 0px; display: inline-block; float: left">
 		{% if options.hide_quote_id_on_sale and Sale.completed == 'true' %}
 		{% else %}
 			{% if Sale.quoteID > 0 %}
@@ -743,13 +743,12 @@ table.payments td.label {
 						Factuurnr #:
 						{% else %}
 						Offertenr.:
-
 		{% set logo_printed = false %}
 		{% if options.multi_shop_logos %}
 			{% for shop in options.shop_logo_array if not logo_printed %}
 				{% if shop.name == Sale.Shop.name %}
 					{% if shop.logo_url|strlen > 0 %}
-						<p style="margin-bottom: 0px;margin-top: 0px;">{{ shop.logo_url }}</p>
+						<p style="margin-bottom: 0px;margin-top: 0px;">{{ shop.logo_url }} {{Sale.quoteID}}</p>
 						{% set logo_printed = true %}
 					{% endif %}
 				{% endif %}
@@ -758,12 +757,10 @@ table.payments td.label {
 
 						{% endif %}
 					</span>
-					<span id="receiptQuoteId">{{options.quote_id_prefix}}{{Sale.quoteID}}</span>
-					<br />
 				</span>
 			{% endif %}
 		{% endif %}
-
+</span>
 		{% if options.hide_ticket_number_on_quote and Sale.completed != 'true' and Sale.quoteID > 0 %}
 		{% else %}
 			<span class="receiptTicketIdField">
@@ -1215,9 +1212,9 @@ table.payments td.label {
 {% endmacro %}
 
 {% macro header(Sale,options) %}
-
+<div style="text-align:center;">
+	<img src="https://www.brachaprinting.com/wp-content/uploads/2013/10/Apple-logo1.jpg" width="225px" height="{{ options.logo_height }}" class="logo">
 		{% if Sale.Shop.ReceiptSetup.logo|strlen > 0 and not logo_printed %}
-			<img src="{{Sale.Shop.ReceiptSetup.logo}}" width="{{ options.logo_width }}" height="{{ options.logo_height }}" class="logo">
 			{% if show_shop_name_with_logo %}
 				<h3 class="receiptShopName">{{ Sale.Shop.name }}</h3>
 			{% endif %}
@@ -1234,6 +1231,7 @@ table.payments td.label {
 				{% endfor %}
 			{% endif %}
 		</p>
+	</div>
 	</div>
 {% endmacro %}
 
