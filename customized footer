@@ -298,6 +298,12 @@ table.payments td.label {
 		.hide-on-print {
 			display: block;
 		}
+		#varwww {
+		 display: block;
+		}
+		#variban {
+		display: none;
+		}
 	}
 
 	@media (min-width: 480px) {
@@ -340,6 +346,14 @@ table.payments td.label {
 
 /* Email, Letter, A4 only */
 	@media (min-width: 300px) {
+
+	#varwww {
+	 display: none;
+	}
+
+	#variban {
+	display: block;
+	}
 
 		.show-on-print {
 			display: block;
@@ -569,6 +583,10 @@ table.payments td.label {
 
 				{{ _self.client_workorder_agreement(Sale,_context) }}
 
+				<p id="variban" style="text-align: center;"> <br><br><br>Betaling: via overschrijving op IBAN: BE83 3631 5184 1315, BIC: BBRUBEBB<br>Te vermelden bij betaling: klant, datum, factuurnummer<br>Levering: na ontvangst betaling</p>
+
+				<p id="varwww" style="text-align: center;"> www.lessoeurs.be<br> Thank you for your purchase, we are delighted to have you shopping with us!<br>Clio, Kay & Jules - Les Soeurs<br><br>RETURNS<br>All returns must be accompanied by a sales receipt and original price tag within 14 days of purchase (except items bought in sale).<br>No cash reimbursement.</p>
+
 				{% if not parameters.gift_receipt %}
 					{{ _self.no_tax_applied_text(Sale) }}
 					<p id="receiptThankYouNote" class="thankyou">
@@ -635,7 +653,7 @@ table.payments td.label {
 {% macro lineDescription(Line,options) %}
 	{% if Line.Item %}
 		<div class='line_description'>
-			{% autoescape true %}{{ Line.Item.description|nl2br }}{% if Line.tax == 'false' or (Line.calcTax1 == 0 and Line.calcTax2 == 0) %}*{% endif %}{% endautoescape %}
+			{% autoescape true %}{{ Line.Item.description}}{% if Line.tax == 'false' or (Line.calcTax1 == 0 and Line.calcTax2 == 0) %}*{% endif %}{% endautoescape %}
 		</div>
 	{% endif %}
 	{% if Line.Note %}
@@ -721,7 +739,7 @@ table.payments td.label {
 {% macro date(Sale) %}
 	<p class="date" id="receiptDateTime">
 		{% if Sale.timeStamp %}
-			{{Sale.timeStamp|correcttimezone|date(getDateTimeFormat())}}
+			{{Sale.timeStamp|correcttimezone|date("d-m-Y H:i")}}
 		{% else %}
 			{{"now"|date(getDateTimeFormat())}}
 		{% endif %}
@@ -766,7 +784,7 @@ table.payments td.label {
 		{% if isVATAndRegistrationNumberOnReceipt() %}
 			{% if Sale.Shop.vatNumber|strlen and not options.hide_shop_vat_number %}
 				<span class="vatNumberField">
-					
+
 					<br />
 				</span>
 			{% endif %}
@@ -1198,30 +1216,6 @@ table.payments td.label {
 
 {% macro header(Sale,options) %}
 	<div class="receiptHeader">
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-    let header = document.querySelector('.receiptTypeTitle');
-    let str = header.innerHTML;
-         var search = str.includes('Factuur');
-     
-     if (search === true) {
-       
-         let note = document.querySelector('#receiptNote');
- 
-         note.insertAdjacentHTML('afterend', '<p style="text-align: center;"> <br><br><br>Betaling: via overschrijving op IBAN: BE83 3631 5184 1315, BIC: BBRUBEBB<br>Te vermelden bij betaling: klant, datum, factuurnummer<br>Levering: na ontvangst betaling</p>');
-     
-     } else {
- 
-         let note = document.querySelector('#receiptNote');
-         note.insertAdjacentHTML('afterend', '<p style="text-align: center;"> www.lessoeurs.be<br> Thank you for your purchase, we are delighted to have you shopping with us!<br>Clio, Kay & Jules - Les Soeurs<br><br>RETURNS<br>All returns must be accompanied by a sales receipt and original price tag within 14 days of purchase (except items bought in sale).<br>No cash reimbursement.</p>');
-     }
-     });
-
-</script>
-
-
 		{% set logo_printed = false %}
 		{% if options.multi_shop_logos %}
 			{% for shop in options.shop_logo_array if not logo_printed %}
