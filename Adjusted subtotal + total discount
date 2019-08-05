@@ -952,8 +952,6 @@ table.payments td.label {
 							{% else %}
 								{{ subtract(Sale.displayableSubtotal, Sale.taxTotal)|money}}
 							{% endif %}
-						<tr><td>Kortingen</td><td id="receiptSaleTotalsDiscounts" class="amount">-{{Sale.calcDiscount|money}}</td></tr>
-
 						</td>
 					</tr>
 					{% if not options.discounted_line_items and Sale.calcDiscount > 0 %}
