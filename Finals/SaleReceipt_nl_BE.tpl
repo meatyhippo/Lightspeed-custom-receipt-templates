@@ -4,7 +4,7 @@
 #}
 
 {# Layout Adjustments #}
-{% set print_layout = parameters.print_layout == "true" ? true : false %} {# Improves receipt layout for large display/paper size (A4/Letter/Email) #}
+{% set print_layout = parameters.print_layout == "true" ? true : true %} {# Improves receipt layout for large display/paper size (A4/Letter/Email) #}
 {% set chrome_right_margin_fix = false %}           {# Fixes a potential issue where the right side of receipts are cut off in Chrome #}
 {% set firefox_margin_fix = false %}                {# Fixes issue with margins cutting off when printing on a letter printer on a Mac #}
 
@@ -235,6 +235,7 @@ table.workorders td.workorder div.line_note {
 p.thankyou {
 	margin: 0;
 	text-align: center;
+	padding-top: 50px;
 }
 
 .note { text-align: center; }
@@ -508,7 +509,6 @@ table.payments td.label {
 
 		.thankyou {
 			clear: both;
-			padding-top: 30px;
 		}
 
 		img.barcode {
@@ -560,7 +560,7 @@ table.payments td.label {
 					{% for Line in Sale.SaleLines.SaleLine %}
 						{% set transaction_item_count = transaction_item_count + Line.unitQuantity %}
 					{% endfor %}
-					<p style="text-align: right; float: right">Totaal aantal items: {{ transaction_item_count }}</p>
+					<p style="text-align: right; float: right; clear: both;">Totaal aantal items: {{ transaction_item_count }}</p>
 				{% endif %}
 
 				{% if Sale.quoteID and Sale.Quote.notes|strlen > 0 %}<p id="receiptQuoteNote" class="note quote">{{Sale.Quote.notes|noteformat|raw}}</p>{% endif %}
@@ -721,7 +721,7 @@ table.payments td.label {
 {% macro date(Sale) %}
 	<p class="date" id="receiptDateTime">
 		{% if Sale.timeStamp %}
-			{{Sale.timeStamp|correcttimezone|date(getDateTimeFormat())}}
+			{{Sale.timeStamp|correcttimezone|date("d-m-Y H:i")}}
 		{% else %}
 			{{"now"|date(getDateTimeFormat())}}
 		{% endif %}
@@ -954,9 +954,9 @@ table.payments td.label {
 							{% endif %}
 						</td>
 					</tr>
-					{% if not options.discounted_line_items and Sale.calcDiscount > 0 %}
+					{% if Sale.calcDiscount > 0 %}
 						<tr><td>Kortingen</td><td id="receiptSaleTotalsDiscounts" class="amount">-{{Sale.calcDiscount|money}}</td></tr>
-					{% elseif not options.discounted_line_items and Sale.calcDiscount < 0 %}
+					{% elseif Sale.calcDiscount < 0 %}
 						<tr><td>Kortingen</td><td id="receiptSaleTotalsDiscounts" class="amount">{{Sale.calcDiscount|getinverse|money}}</td></tr>
 					{% endif %}
 					{% for Tax in Sale.TaxClassTotals.Tax %}
@@ -1022,7 +1022,7 @@ table.payments td.label {
 									<td class="label">Aanbetaling op rekening</td>
 									<td id="receiptPaymentsCreditAccountDepositValue" class="amount">{{Payment.amount|getinverse|money}}</td>
 									{% else %}
-									<td class="label">Betalen op rekening</td>
+									<td class="label">Betaald met winkelkrediet</td>
 									<td id="receiptPaymentsCreditAccountChargeValue" class="amount">{{Payment.amount|money}}</td>
 									{% endif %}
 								</tr>
