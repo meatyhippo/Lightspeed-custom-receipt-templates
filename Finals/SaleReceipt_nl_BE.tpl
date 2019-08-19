@@ -800,7 +800,7 @@ table.payments td.label {
 			{% if not options.show_customer_name_only %}
 				{% if options.show_full_customer_address %}
 					<span class="receiptCustomerAddressField">
-						<span class="receiptCustomerAddressLabel">Address:</span>
+						{#<span class="receiptCustomerAddressLabel">Address:</span>#}
 						{{ _self.address(Sale.Customer.Contact,',',options) }}
 					</span>
 				{% endif %}
@@ -811,7 +811,7 @@ table.payments td.label {
 					{% endfor %}
 
 					{% for Email in Sale.Customer.Contact.Emails.ContactEmail %}
-						<span class="receiptEmailLabel">E-mailadres: </span><span id="receiptEmail">{{Email.address}} ({{Email.useType}})</span><br />
+						<span class="receiptEmailLabel">E-mailadres: </span><span id="receiptEmail">{{Email.address}} {# ({{Email.useType}}) #} </span><br />
 					{% endfor %}
 				</span>
 			{% endif %}
