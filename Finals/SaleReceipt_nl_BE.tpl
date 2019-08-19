@@ -20,6 +20,7 @@
 {% set workorders_as_title = false %}               {# Changes the receipt title to "Work Orders" if there is no Salesline items and 1 or more workorders #}
 {% set quote_id_prefix = "" %}                      {# Adds a string of text as a prefix for the Quote ID. Ex: "Q-". To be used when "sale_id_instead_of_ticket_number" is true #}
 {% set sale_id_prefix = "" %}                       {# Adds a string of text as a prefix for the Sales ID. Ex: "S-". To be used when "sale_id_instead_of_ticket_number" is true #}
+{% set tax_exclusive_subtotal = true %}             {# changes the subtotal to be tax exclusive #}
 
 {# Item Lines #}
 {% set per_line_discount = true %}                 {# Displays Discounts on each Sale Line #}
@@ -940,17 +941,21 @@ table.payments td.label {
 				<tbody id="receiptSaleTotals">
 					<tr>
 						<td width="100%">
-							{% if options.discounted_line_items and Sale.calcDiscount != 0 %}
-							Subtotaal
+							{% if options.tax_exclusive_subtotal %}
+							Subtotaal excl. btw
+							{% elseif options.discounted_line_items and Sale.calcDiscount != 0 %}
+							Subtotaal - kortingen
 							{% else %}
 							Subtotaal
 							{% endif %}
 						</td>
 						<td id="receiptSaleTotalsSubtotal" class="amount">
-							{% if options.discounted_line_items %}
+                                                        {% if options.tax_exclusive_subtotal %}
 								{{ subtract(Sale.displayableSubtotal, Sale.taxTotal)|money}}
+							{% elseif options.discounted_line_items %}
+								{{ subtract(Sale.displayableSubtotal, Sale.calcDiscount)|money}}
 							{% else %}
-								{{ subtract(Sale.displayableSubtotal, Sale.taxTotal)|money}}
+								{{Sale.displayableSubtotal|money}}
 							{% endif %}
 						</td>
 					</tr>
