@@ -34,7 +34,7 @@
 {# Misc. Adjustments #}
 {% set show_shop_name_with_logo = false %}          {# Displays the Shop Name under the Shop Logo #}
 {% set show_thank_you = true %}                     {# Displays "Bedankt <Customer Name>!" above bottom barcode #}
-{% set show_transaction_item_count = true %}       {# Gives a total quantity of items sold near the bottom of the receipt #}
+{% set show_transaction_item_count = false %}       {# Gives a total quantity of items sold near the bottom of the receipt #}
 {% set show_sale_lines_on_store_copy = false %}     {# Shows Sale Lines on Credit Card Store Copy receipts #}
 {% set quote_to_invoice = false %}                  {# Changes Offerte wording to Factuur in Sales and in Sale Quotes (does not apply to Work Order Quotes) #}
 {% set show_sale_lines_on_gift_receipt = true %}    {# Displays Sale Lines on Gift Receipts #}
@@ -942,7 +942,7 @@ table.payments td.label {
 					<tr>
 						<td width="100%">
 							{% if options.tax_exclusive_subtotal %}
-							Subtotaal excl. btw
+							Subtotaal excl. BTW
 							{% elseif options.discounted_line_items and Sale.calcDiscount != 0 %}
 							Subtotaal - kortingen
 							{% else %}
