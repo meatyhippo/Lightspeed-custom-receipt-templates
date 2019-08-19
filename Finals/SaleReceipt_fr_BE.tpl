@@ -23,9 +23,9 @@
 {% set tax_exclusive_subtotal = true %}             {# changes the subtotal to be tax exclusive #}
 
 {# Item Lines #}
-{% set per_line_discount = true %}                 {# Displays Discounts on each Sale Line #}
+{% set per_line_discount = false %}                 {# Displays Discounts on each Sale Line #}
 {% set per_line_subtotal = false %}                 {# Displays Subtotals for each Sale Line (ex: "1 x 5.00") #}
-{% set discounted_line_items = true %}             {# Strikes out the original price and displays the discounted price on each Sale Line #}
+{% set discounted_line_items = false %}             {# Strikes out the original price and displays the discounted price on each Sale Line #}
 {% set per_line_employee = false %}                 {# Display Employee for each Sale line #}
 {% set show_custom_sku = false %}                   {# Adds SKU column for Custom SKU, if available, on each Sale Line #}
 {% set show_manufacturer_sku = false %}             {# Adds SKU column for Manufacturer SKU, if available, on each Sale Line #}
