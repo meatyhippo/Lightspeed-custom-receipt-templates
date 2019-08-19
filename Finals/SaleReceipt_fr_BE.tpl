@@ -34,7 +34,7 @@
 {# Misc. Adjustments #}
 {% set show_shop_name_with_logo = false %}          {# Displays the Shop Name under the Shop Logo #}
 {% set show_thank_you = true %}                     {# Displays "Merci <Customer Name>!" above bottom barcode #}
-{% set show_transaction_item_count = true %}       {# Gives a total quantity of items sold near the bottom of the receipt #}
+{% set show_transaction_item_count = false %}       {# Gives a total quantity of items sold near the bottom of the receipt #}
 {% set show_sale_lines_on_store_copy = true %}      {# Shows Sale Lines on Credit Card Store Copy receipts #}
 {% set quote_to_invoice = false %}                  {# Changes Devis wording to Facture in Sales and in Sale Quotes (does not apply to Work Order Quotes) #}
 {% set show_sale_lines_on_gift_receipt = true %}    {# Displays Sale Lines on Gift Receipts #}
