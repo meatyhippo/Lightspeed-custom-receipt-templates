@@ -46,8 +46,8 @@
 {% set hide_quote_id_on_sale = false %}             {# Hides the Quote ID on Sales #}
 
 {# Customer Information #}
-{% set show_full_customer_address = true %}        {# Displays Customers full address, if available #}
-{% set show_customer_name_only = false %}            {# Hides all Customer information except for their name #}
+{% set show_full_customer_address = false %}        {# Displays Customers full address, if available #}
+{% set show_customer_name_only = true %}            {# Hides all Customer information except for their name #}
 {% set show_customer_notes = false %}               {# Displays Notes entered in the Customers profile #}
 {% set company_name_override = false %}             {# Does not display the Customer Name if Company Name is present #}
 
