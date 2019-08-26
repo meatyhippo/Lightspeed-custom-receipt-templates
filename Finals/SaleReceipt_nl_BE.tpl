@@ -20,7 +20,6 @@
 {% set workorders_as_title = false %}               {# Changes the receipt title to "Work Orders" if there is no Salesline items and 1 or more workorders #}
 {% set quote_id_prefix = "" %}                      {# Adds a string of text as a prefix for the Quote ID. Ex: "Q-". To be used when "sale_id_instead_of_ticket_number" is true #}
 {% set sale_id_prefix = "" %}                       {# Adds a string of text as a prefix for the Sales ID. Ex: "S-". To be used when "sale_id_instead_of_ticket_number" is true #}
-{% set tax_exclusive_subtotal = true %}             {# changes the subtotal to be tax exclusive #}
 
 {# Item Lines #}
 {% set per_line_discount = true %}                 {# Displays Discounts on each Sale Line #}
@@ -30,6 +29,7 @@
 {% set show_custom_sku = false %}                   {# Adds SKU column for Custom SKU, if available, on each Sale Line #}
 {% set show_manufacturer_sku = false %}             {# Adds SKU column for Manufacturer SKU, if available, on each Sale Line #}
 {% set show_msrp = false %}                         {# Adds MSRP column for the items MSRP, if available, on each Sale Line #}
+{% set hide_decimals = false %}			    {# Hides the decimals on the receipt #}
 
 {# Misc. Adjustments #}
 {% set show_shop_name_with_logo = false %}          {# Displays the Shop Name under the Shop Logo #}
@@ -44,6 +44,7 @@
 {% set show_workorders_barcode_sku = true %}        {# Displays the System ID at the bottom of workorders barcodes #}
 {% set hide_ticket_number_on_quote = false %}       {# Hides the Ticket Number on Quotes #}
 {% set hide_quote_id_on_sale = false %}             {# Hides the Quote ID on Sales #}
+{% set tax_exclusive_subtotal = true %}             {# changes the subtotal to be tax exclusive #}
 
 {# Customer Information #}
 {% set show_full_customer_address = false %}        {# Displays Customers full address, if available #}
@@ -1204,6 +1205,16 @@ table.payments td.label {
 
 {% macro header(Sale,options) %}
 	<div class="receiptHeader">
+	
+		{% if options.hide_decimals %}
+	<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.amount').forEach((price, idx) => idx > 0 ? price.innerText = price.innerText.split(/\./g)[0] : null)
+    document.querySelectorAll('td[data-automation=receiptSaleTotalsTaxName]').forEach(price => price.innerText = price.innerText.split(/\./g)[0])
+})
+	</script>
+		{% endif %}
+	
 		{% set logo_printed = false %}
 		{% if options.multi_shop_logos %}
 			{% for shop in options.shop_logo_array if not logo_printed %}
