@@ -44,7 +44,8 @@
 {% set show_workorders_barcode_sku = true %}        {# Displays the System ID at the bottom of workorders barcodes #}
 {% set hide_ticket_number_on_quote = false %}       {# Hides the Ticket Number on Quotes #}
 {% set hide_quote_id_on_sale = false %}             {# Hides the Quote ID on Sales #}
-{% set tax_exclusive_subtotal = true %}             {# changes the subtotal to be tax exclusive #}
+{% set tax_exclusive_subtotal = false %}             {# changes the subtotal to be tax exclusive #}
+{% set hide_workorder_notes = false %}                {# hides the notes of a workorder in the sales receipt #}
 
 {# Customer Information #}
 {% set show_full_customer_address = false %}        {# Displays Customers full address, if available #}
@@ -87,6 +88,10 @@
 
 {% extends parameters.print ? "printbase" : "base" %}
 {% block extrastyles %}
+
+{#  *** Switch around both "extends" lines to turn the print dialogue on or off ***
+{% extends "base" %}
+#}
 
 @page { margin: 0px; }
 
@@ -669,6 +674,32 @@ table.payments td.label {
 
 {% macro title(Sale,parameters,options) %}
 	<h1 class="receiptTypeTitle">
+	
+	  {% if options.hide_workorder_notes %}
+<script>
+document.addEventListener("DOMContentLoaded", function(event) { 
+    let regx1 = /([\s\S]+?\b[ap]m\b)[\s\S]+/ig;
+    let regx2 = /([\s\S]+#\d{0,})[\s\S]+/ig;
+    var div = document.querySelectorAll('.line_note');
+    div.forEach(function(div) {
+        var content = div.innerHTML;
+        var search = content.includes("Work order");
+    if (search === true) {
+        if (regx1.test(content)) {
+        new_str = content.replace(regx1, "$1");
+        } else {
+            new_str = content.replace(regx2, "$1");
+        }
+     div.innerHTML = new_str;
+     let targetBreak = document.querySelector('.line_note br');
+     targetBreak.style.cssText="display: none";
+    }
+    });
+    
+    });
+</script>
+{% endif %}
+
 		{% if Sale.calcTotal >= 0 %}
 			{% if Sale.completed == 'true' %}
 				{% if options.invoice_as_title and options.print_layout %}
