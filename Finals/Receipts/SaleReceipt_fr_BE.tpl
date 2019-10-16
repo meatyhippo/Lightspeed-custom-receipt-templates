@@ -1024,7 +1024,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 								<!--  Gift Card -->
 								{% if Payment.amount > 0 %}
 									<tr>
-										<td class="label">Prélèvement sur carte cadeau</td>
+										<td class="label">Prélèvement sur carte cadeau #{{Payment.CreditAccount.code}}{{Payment.CreditAccount.description}}</td>
 										<td id="receiptPaymentsGiftCardValue" class="amount">{{Payment.amount|money}}</td>
 									</tr>
 									<tr>
@@ -1042,7 +1042,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 									</tr>
 								{% elseif Payment.amount < 0 and Sale.calcTotal >= 0 %}
 									<tr>
-										<td class="label">Achat carte cadeau</td>
+										<td class="label">Achat carte cadeau #{{Payment.CreditAccount.code}}{{Payment.CreditAccount.description}}</td>
 										<td id="receiptPaymentsGiftCardValue" class="amount">{{Payment.amount|getinverse|money}}</td>
 									</tr>
 									<tr>
